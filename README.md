@@ -365,16 +365,4 @@ The original 4–6 hour assignment window was used to prioritize the required ti
 
 Requirements: [PRD](docs/PulseDesk_PRD.pdf). Architecture: [architecture.md](docs/architecture.md). Milestones and acceptance mapping: [development-plan.md](docs/development-plan.md). Static visual references remain in `design/`.
 
-## Submission checklist
 
-- [x] Application source code
-- [x] Database migrations
-- [x] Seed instructions
-- [x] Setup instructions
-- [x] Environment variable documentation
-- [x] Test instructions
-- [x] Technical choices
-- [x] Assumptions
-- [x] Known limitations
-- [x] Screenshots included
-- [ ] Final time-spent values reviewed
