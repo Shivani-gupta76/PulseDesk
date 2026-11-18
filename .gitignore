@@ -1,0 +1,15 @@
+node_modules/
+client/dist/
+.env*
+**/.env*
+!.env.example
+!**/.env.example
+.local/
+.vercel/
+coverage/
+playwright-report/
+test-results/
+.DS_Store
+*.log
+/design/stitch_pulsedesk_support_ticket_dashboard 2 copy/
+.sf/

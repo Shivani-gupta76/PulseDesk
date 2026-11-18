@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum Status {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+}
+
+model Ticket {
+  id            String   @id @default(uuid()) @db.Uuid
+  title         String   @db.VarChar(120)
+  description   String   @db.Text
+  customerEmail String   @map("customer_email") @db.VarChar(255)
+  priority      Priority
+  status        Status   @default(OPEN)
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  attachments   Attachment[]
+  assignees     TicketAssignee[]
+  comments      Comment[]
+
+  @@index([createdAt, id])
+  @@map("tickets")
+}
+
+model Attachment {
+  id         String   @id @default(uuid()) @db.Uuid
+  ticketId   String   @map("ticket_id") @db.Uuid
+  ticket     Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  fileName   String   @map("file_name") @db.VarChar(255)
+  storageKey String   @unique @map("storage_key") @db.VarChar(80)
+  mimeType   String   @map("mime_type") @db.VarChar(100)
+  fileSize   Int      @map("file_size")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([ticketId, createdAt, id])
+  @@map("attachments")
+}
+
+model User {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @db.VarChar(120)
+  email       String   @unique @db.VarChar(255)
+  avatarUrl   String?  @map("avatar_url") @db.VarChar(2048)
+  googleSubject String? @unique @map("google_subject") @db.VarChar(255)
+  lastLoginAt DateTime? @map("last_login_at") @db.Timestamptz(3)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  assignments TicketAssignee[]
+  comments    Comment[]
+
+  @@map("users")
+}
+
+// Managed by connect-pg-simple; contains session identity, never Google tokens.
+model Session {
+  sid    String   @id @db.VarChar
+  sess   Json     @db.Json
+  expire DateTime @db.Timestamp(6)
+
+  @@index([expire])
+  @@map("sessions")
+}
+
+model TicketAssignee {
+  ticketId   String   @map("ticket_id") @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  ticket     Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignedAt DateTime @default(now()) @map("assigned_at") @db.Timestamptz(3)
+
+  @@id([ticketId, userId])
+  @@index([userId])
+  @@map("ticket_assignees")
+}
+
+model Comment {
+  id        String   @id @default(uuid()) @db.Uuid
+  ticketId  String   @map("ticket_id") @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+  content   String   @db.VarChar(5000)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([ticketId, createdAt, id])
+  @@index([userId])
+  @@map("comments")
+}

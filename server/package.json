@@ -1,0 +1,35 @@
+{
+  "name": "@pulsedesk/server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "node prisma/seed.js",
+    "db:seed:demo": "node prisma/demo.seed.js",
+    "test": "node scripts/test.mjs"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1145.0",
+    "@prisma/client": "6.19.3",
+    "connect-pg-simple": "^10.0.0",
+    "dotenv": "^17.2.3",
+    "entities": "^8.1.0",
+    "express": "^5.1.0",
+    "express-session": "^1.19.0",
+    "file-type": "^22.1.1",
+    "multer": "^2.5.0",
+    "openid-client": "^6.8.8",
+    "pg": "^8.23.1",
+    "sanitize-html": "^2.18.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "cookie-signature": "^1.2.2",
+    "prisma": "6.19.3",
+    "supertest": "^7.1.4",
+    "vitest": "^4.1.12"
+  }
+}
