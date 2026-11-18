@@ -1,7 +1,5 @@
 # PulseDesk
 
-This copy is maintained at [Shivani-gupta76/-PulseDesk](https://github.com/Shivani-gupta76/-PulseDesk). It is based on [Khushi Ray's original PulseDesk project](https://github.com/khushiray07/PulseDesk). The source repository does not include a license file.
-
 PulseDesk is a full-stack support ticket management dashboard built for the technical assignment. It allows support teams to create, search, filter, prioritize, update, and resolve customer requests through a centralized workspace. Built with React, Express, Prisma, and PostgreSQL.
 
 ## Core assignment features
